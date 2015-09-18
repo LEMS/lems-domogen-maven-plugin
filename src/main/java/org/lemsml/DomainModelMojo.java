@@ -1,23 +1,10 @@
 package org.lemsml;
 
-/*
- * Copyright 2001-2005 The Apache Software Foundation.
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *      http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
-
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.PrintWriter;
+import java.text.MessageFormat;
 
 import org.apache.maven.plugin.AbstractMojo;
 import org.apache.maven.plugin.MojoExecutionException;
@@ -25,36 +12,44 @@ import org.apache.maven.plugins.annotations.Mojo;
 import org.apache.maven.plugins.annotations.Parameter;
 import org.apache.maven.project.MavenProject;
 
-/**
- * Says "Hi" to the user.
- *
- */
-@Mojo(name = "sayhi")
+@Mojo(name = "generateDoMoClasses")
 public class DomainModelMojo extends AbstractMojo {
-	@Parameter(property = "sayhi.greeting", defaultValue = "Hello World!")
-	private String greeting;
+	@Parameter(property = "generateDoMoClasses.mlName", defaultValue = "org.testml.model")
+	private String mlName;
 
-	@Parameter(property = "sayhi.outputDir", defaultValue = "${project.build.directory}/generated-sources/domo")
+	@Parameter(property = "generateDoMoClasses.outputDir", defaultValue = "${project.build.directory}/generated-sources/LEMS")
 	private File outputDir;
 
-	@Parameter(property = "sayhi.project", defaultValue = "${project}")
+	@Parameter(property = "generateDoMoClasses.project", defaultValue = "${project}")
 	private MavenProject project;
 
-
 	public void execute() throws MojoExecutionException {
-		getLog().info(greeting);
-		getLog().info(outputDir.toString());
+		getLog().info(MessageFormat.format("Generating domain model classes for {0} into {1}",
+				mlName, outputDir.toString()));
 
-		File foo = new File(outputDir, "foo.java");
+		File foo = new File(outputDir, mlName.replace(".", "/") + "/Blah.java");
+		createFile(foo);
+
+		project.addCompileSourceRoot(foo.getParentFile().getAbsolutePath());
+
+	}
+
+	public void createFile(File foo) {
 		foo.getParentFile().mkdirs();
 		try {
 			foo.createNewFile();
+			getLog().info("\t" + foo.getName());
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-
-		project.addCompileSourceRoot(outputDir.getAbsolutePath());
-
+		try {
+			PrintWriter out = new PrintWriter(foo);
+			out.println("package " + mlName + ";\n\npublic class Blah{}");
+			out.close();
+		} catch (FileNotFoundException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
 	}
 }
