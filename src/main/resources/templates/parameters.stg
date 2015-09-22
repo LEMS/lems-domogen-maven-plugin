@@ -1,0 +1,18 @@
+parameter_accessors(par) ::= <<
+<par:par_getter()>
+
+<par:par_setter()>
+>>
+
+par_getter(par) ::= <<
+	public String get<par.name; format="cap">() {
+		return getParameterValue("<par.name>");
+	}
+>>
+
+par_setter(par) ::= <<
+	public void set<par.name; format="cap">(String val) throws LEMSCompilerException {
+		withParameterValue("<par.name>", val);
+	}
+>>
+

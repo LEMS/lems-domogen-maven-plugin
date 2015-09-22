@@ -1,0 +1,48 @@
+import "parameters.stg"
+import "child.stg"
+import "children.stg"
+import "reference.stg"
+import "subcomponents.stg"
+import "imports.stg"
+import "common.stg"
+
+class_file(type, ml_name, package) ::= <<
+package <package>;
+
+<imports(type)>
+<class(type)>
+>>
+
+quali_name(type) ::= "<pakage>.<type.extends>"
+extension(type) ::= "extends <if(type.extends)><type.extends><else>Component<endif>"
+
+
+getter_name(prop) ::= "get<prop; format=\"cap\">s"
+
+class(type) ::= <<
+@XmlType
+public class <type.name> <type:extension()> {
+
+<! see child.stg !>
+<type.children:child_declaration(); separator = "\n">
+
+<! see children.stg !>
+<type.childrens:children_declaration(); separator = "\n">
+
+<! see subcomp.stg !>
+<subcomponents(type)>
+
+<! see parameters.stg !>
+<type.parameters:parameter_accessors(); separator = "\n\n">
+
+<! see child.stg !>
+<type.children:child_accessors(); separator = "\n\n">
+
+<! see children.stg !>
+<type.childrens:children_accessors(); separator = "\n">
+
+<! see references.stg !>
+<type.componentReferences:reference_accessors(); separator = "\n">
+
+}
+>>

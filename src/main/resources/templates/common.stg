@@ -1,0 +1,1 @@
+getter_name(prop) ::= "get<prop; format=\"cap\">s"

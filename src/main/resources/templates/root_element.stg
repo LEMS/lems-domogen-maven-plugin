@@ -1,0 +1,94 @@
+import "imports.stg"
+import "common.stg"
+
+root_element(lems, ml_name, package) ::= <<
+
+package <package>;
+
+<root_imports()>
+
+@XmlRootElement(name = "<ml_name>")
+public class <ml_name; format="cap"> extends <lems_root()> {
+
+	<lems.componentTypes:type_list(); separator="\n\n">
+
+	@XmlElement(name = "Components")
+	protected List\<Component> components;
+
+	<lems:get_component()>
+
+	<all_of_type()>
+
+	<lems.componentTypes:getter()>
+
+}
+>>
+
+
+get_component(lems) ::= <<
+@Override
+public List\<Component> getComponents() {
+       	List\<Component> comps = new ArrayList\<Component>();
+       	if (components == null) {
+			<lems.componentTypes:add_type(); separator="\n">
+       	} else {
+       		comps =  this.components;
+       	}
+       	return comps;
+}
+>>
+
+add_type(type) ::= <<
+for (<type.name> c : <type.name:getter_name()>()) {
+	c.setType(c.getClass().getSimpleName());
+	comps.add(c);
+}
+>>
+
+
+type_list(type) ::= <<
+@XmlElement(name = "<type.name>")
+private List\<<type.name>\> <type.name; format="lower">s = new ArrayList\<<type.name>\>();
+>>
+
+all_of_type() ::= <<
+public \<T extends Component> Set\<T> getAllOfType(Class\<T> type) {
+	return getAllOfType(type, this);
+}
+
+@SuppressWarnings("unchecked")
+public \<T extends Component> Set\<T> getAllOfType(Class\<T> type,
+        HasComponents node) {
+	Set\<T> accum = new HashSet\<T>();
+	for (Component c : node.getComponents()) {
+        accum.addAll(getAllOfType(type, c));
+	}
+	if (type.isInstance(node)) {
+        accum.add((T) node);
+	}
+	return accum;
+}
+
+>>
+
+
+getter(type) ::= <<
+public List\<<type.name>\> <type.name:getter_name()>() {
+	return this.<type.name; format="lower">s;
+}
+
+>>
+
+
+root_imports() ::= <<
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
+
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlRootElement;
+
+import org.lemsml.model.extended.Component;
+import org.lemsml.model.extended.interfaces.HasComponents;
+>>

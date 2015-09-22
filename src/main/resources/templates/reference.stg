@@ -1,0 +1,8 @@
+reference_accessors(prop) ::= "<\n><prop:ref_getter()>"
+
+ref_getter(ref) ::= <<
+	public <ref.type> get<ref.name; format="cap">() {
+		//TODO: remove old
+		return (<ref.type>) this.getSubComponentsBoundToName("<ref.name>").get(0);
+	}
+>>
