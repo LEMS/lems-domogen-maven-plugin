@@ -1,0 +1,25 @@
+obj_factory(lems, ml_name, package) ::= <<
+package <package>;
+
+import javax.xml.bind.annotation.XmlRegistry;
+
+<lems.componentTypes:{ct | import <package>.<ct.name>;}; separator="\n">
+
+@XmlRegistry
+public class ObjectFactory {
+
+	public ObjectFactory() {
+	}
+
+	<ml_name:class()>
+	<lems.componentTypes:class(); separator="\n\n">
+}
+>>
+
+name(x) ::= "<if(x.name)><x.name><else><x><endif>"
+
+class(ct) ::= <<
+public <ct:name()> create<(ct:name()); format="cap">(){
+	return new <(ct:name()); format="cap">();
+}
+>>

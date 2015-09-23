@@ -40,11 +40,10 @@ public class DomainModelMojo extends AbstractMojo {
 
 	public void execute() throws MojoExecutionException {
 		getLog().info(
-				MessageFormat
-						.format("Generating domain model classes for {0},\n"
-								+ "\t defined in {1},\n"
-								+ "\t onto {2}",
-								mlName, componentTypeDefs, outputDir));
+				MessageFormat.format(
+						"Generating domain model classes for {0},\n"
+								+ "\t defined in {1},\n" + "\t onto {2}",
+						mlName, componentTypeDefs, outputDir));
 
 		pkgName = "org." + mlName + ".model";
 		baseDir = new File(outputDir, pkgName.replace(".", "/"));
@@ -60,6 +59,7 @@ public class DomainModelMojo extends AbstractMojo {
 			baseDir.mkdirs();
 			createBaseDefinitions();
 			generateDomainClasses();
+			generateObjectFactory();
 		} catch (Throwable e) {
 			throw new MojoExecutionException(e.toString());
 		}
@@ -77,7 +77,21 @@ public class DomainModelMojo extends AbstractMojo {
 
 	}
 
-	private void generateDomainClasses() throws IOException  {
+	private void generateObjectFactory() throws IOException {
+		String fName = "ObjectFactory.java";
+
+		URL stURL = getClass().getResource("/templates/obj_factory.stg");
+		STGroup group = new STGroupFile(stURL, "UTF-8", '<', '>');
+
+		ST template = group.getInstanceOf("obj_factory");
+		template.add("lems", domainDefs);
+		template.add("package", pkgName);
+		template.add("ml_name", mlName);
+		dumpTemplateToFile(fName, template);
+
+	}
+
+	private void generateDomainClasses() throws IOException {
 		for (ComponentType ct : domainDefs.getComponentTypes()) {
 			String fName = ct.getName().replace(".", "_") + ".java";
 			getLog().info("\t" + fName);
