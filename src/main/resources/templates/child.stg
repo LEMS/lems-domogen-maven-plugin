@@ -1,5 +1,5 @@
 child_declaration(child) ::= <<
-	@XmlElement(name = "<child.name>")
+	@XmlElement(name = "<child.type>")
 	private <child.type> <child.name>;
 
 >>
