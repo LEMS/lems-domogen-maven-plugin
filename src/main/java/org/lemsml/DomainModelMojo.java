@@ -27,7 +27,7 @@ public class DomainModelMojo extends AbstractMojo {
 	@Parameter(property = "generateDoMoClasses.outputDir", defaultValue = "${project.build.directory}/generated-sources/LEMS")
 	private File outputDir;
 
-	@Parameter(property = "generateDoMoClasses.componentTypeDefs", defaultValue = "${project.basedir}/src/main/lems/MyML.xml")
+	@Parameter(property = "generateDoMoClasses.componentTypeDefs", defaultValue = "${project.basedir}/src/main/resources/lems/MyML.xml")
 	private File componentTypeDefs;
 
 	@Parameter(property = "generateDoMoClasses.project", defaultValue = "${project}")
