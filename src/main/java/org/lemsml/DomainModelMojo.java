@@ -19,6 +19,8 @@ import org.stringtemplate.v4.STGroup;
 import org.stringtemplate.v4.STGroupFile;
 import org.stringtemplate.v4.StringRenderer;
 
+import com.google.common.base.CaseFormat;
+
 @Mojo(name = "generateDoMoClasses")
 public class DomainModelMojo extends AbstractMojo {
 	@Parameter(property = "generateDoMoClasses.mlName", defaultValue = "org.MyML.model")
@@ -69,7 +71,7 @@ public class DomainModelMojo extends AbstractMojo {
 	}
 
 	private void createBaseDefinitions() throws IOException {
-		String fName = mlName + ".java";
+		String fName = CaseFormat.LOWER_CAMEL.to(CaseFormat.UPPER_CAMEL, mlName) + ".java";
 		getLog().info("\t" + fName);
 
 		ST merged = mergeRootElement();
@@ -82,6 +84,7 @@ public class DomainModelMojo extends AbstractMojo {
 
 		URL stURL = getClass().getResource("/templates/obj_factory.stg");
 		STGroup group = new STGroupFile(stURL, "UTF-8", '<', '>');
+		group.registerRenderer(String.class, new StringRenderer());
 
 		ST template = group.getInstanceOf("obj_factory");
 		template.add("lems", domainDefs);
@@ -93,11 +96,13 @@ public class DomainModelMojo extends AbstractMojo {
 
 	private void generateDomainClasses() throws IOException {
 		for (ComponentType ct : domainDefs.getComponentTypes()) {
-			String fName = ct.getName().replace(".", "_") + ".java";
-			getLog().info("\t" + fName);
+			String classFname = CaseFormat.LOWER_CAMEL.to(CaseFormat.UPPER_CAMEL, ct.getName())
+									.replace(".", "_") + ".java";
+
+			getLog().info("\t" + classFname);
 
 			ST merged = mergeCompTypeTemplate(ct);
-			dumpTemplateToFile(fName, merged);
+			dumpTemplateToFile(classFname, merged);
 		}
 	}
 

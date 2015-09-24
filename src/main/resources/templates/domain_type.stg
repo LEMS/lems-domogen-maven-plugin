@@ -13,15 +13,15 @@ package <package>;
 <class(type)>
 >>
 
-quali_name(type) ::= "<pakage>.<type.extends>"
-extension(type) ::= "extends <if(type.extends)><type.extends><else>Component<endif>"
+quali_name(type) ::= "<package>.<type.extends>"
+extension(type) ::= "extends <if(type.extends)><type.extends; format=\"cap\"><else>Component<endif>"
 
 
 getter_name(prop) ::= "get<prop; format=\"cap\">s"
 
 class(type) ::= <<
 @XmlType
-public class <type.name> <type:extension()> {
+public class <type.name; format="cap"> <type:extension()> {
 
 <! see child.stg !>
 <type.children:child_declaration(); separator = "\n">

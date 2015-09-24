@@ -3,7 +3,7 @@ package <package>;
 
 import javax.xml.bind.annotation.XmlRegistry;
 
-<lems.componentTypes:{ct | import <package>.<ct.name>;}; separator="\n">
+<lems.componentTypes:{ct | import <package>.<ct.name; format="cap">;}; separator="\n">
 
 @XmlRegistry
 public class ObjectFactory {
@@ -16,7 +16,7 @@ public class ObjectFactory {
 }
 >>
 
-name(x) ::= "<if(x.name)><x.name><else><x><endif>"
+name(x) ::= "<if(x.name)><x.name; format=\"cap\"><else><x; format=\"cap\"><endif>"
 
 class(ct) ::= <<
 public <ct:name()> create<(ct:name()); format="cap">(){

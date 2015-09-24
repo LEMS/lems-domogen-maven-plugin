@@ -14,7 +14,7 @@ subComp_getter(type) ::= <<
 >>
 
 add_childrens(children) ::= <<
-	for (<children.type> child : <children.name>) {
+	for (<children.type; format="cap"> child : <children.name>) {
 		child.setType(child.getClass().getSimpleName());
 		comps.add(child);
 	}

@@ -39,7 +39,7 @@ public List\<Component> getComponents() {
 >>
 
 add_type(type) ::= <<
-for (<type.name> c : <type.name:getter_name()>()) {
+for (<type.name; format="cap"> c : <type.name:getter_name()>()) {
 	c.setType(c.getClass().getSimpleName());
 	comps.add(c);
 }
@@ -48,7 +48,7 @@ for (<type.name> c : <type.name:getter_name()>()) {
 
 type_list(type) ::= <<
 @XmlElement(name = "<type.name>")
-private List\<<type.name>\> <type.name; format="lower">s = new ArrayList\<<type.name>\>();
+private List\<<type.name; format="cap">\> <type.name; format="lower">s = new ArrayList\<<type.name; format="cap">\>();
 >>
 
 all_of_type() ::= <<
@@ -73,7 +73,7 @@ public \<T extends Component> Set\<T> getAllOfType(Class\<T> type,
 
 
 getter(type) ::= <<
-public List\<<type.name>\> <type.name:getter_name()>() {
+public List\<<type.name; format="cap">\> <type.name:getter_name()>() {
 	return this.<type.name; format="lower">s;
 }
 
