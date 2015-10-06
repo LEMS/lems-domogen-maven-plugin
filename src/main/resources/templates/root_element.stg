@@ -5,6 +5,7 @@ root_element(lems, ml_name, package) ::= <<
 
 package <package>;
 
+import java.beans.Introspector;
 <root_imports()>
 
 @XmlRootElement(name = "<ml_name>")
@@ -40,7 +41,7 @@ public List\<Component> getComponents() {
 
 add_type(type) ::= <<
 for (<type.name; format="cap"> c : <type.name:getter_name()>()) {
-	c.setType(c.getClass().getSimpleName());
+	c.setType(Introspector.decapitalize(c.getClass().getSimpleName()));
 	comps.add(c);
 }
 >>

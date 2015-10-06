@@ -13,16 +13,21 @@ subComp_getter(type) ::= <<
 	}
 >>
 
+
 add_childrens(children) ::= <<
-	for (<children.type; format="cap"> child : <children.name>) {
-		child.setType(child.getClass().getSimpleName());
-		comps.add(child);
+	if(<children.name> != null){
+		for (<children.type; format="cap"> child : <children.name>) {
+			child.setType(Introspector.decapitalize(child.getClass().getSimpleName()));
+			comps.add(child);
+		}
 	}
 >>
 
 add_children(child) ::= <<
-	<child.name>.setType((null != <child.name>.getType()) ? <child.name>.getType() : <child.name>.getClass().getSimpleName());
-   	<child.name>.setName("<child.name>");
-    comps.add(<child.name>);
+	if(<child.name> != null){
+		<child.name>.setType((null != <child.name>.getType()) ? <child.name>.getType() : Introspector.decapitalize(<child.name>.getClass().getSimpleName()));
+   		<child.name>.setName("<child.name>");
+    	comps.add(<child.name>);
+    }
 
 >>

@@ -5,6 +5,12 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.net.URL;
 import java.text.MessageFormat;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 import org.apache.maven.plugin.AbstractMojo;
 import org.apache.maven.plugin.MojoExecutionException;
@@ -20,6 +26,9 @@ import org.stringtemplate.v4.STGroupFile;
 import org.stringtemplate.v4.StringRenderer;
 
 import com.google.common.base.CaseFormat;
+
+import expr_parser.utils.DirectedGraph;
+import expr_parser.utils.TopologicalSort;
 
 @Mojo(name = "generateDoMoClasses")
 public class DomainModelMojo extends AbstractMojo {
@@ -40,6 +49,8 @@ public class DomainModelMojo extends AbstractMojo {
 	private STGroup typeSTG;
 	private String pkgName;
 
+	private LEMSCompilerFrontend compiler;
+
 	public void execute() throws MojoExecutionException {
 		getLog().info(
 				MessageFormat.format(
@@ -50,8 +61,8 @@ public class DomainModelMojo extends AbstractMojo {
 		pkgName = "org." + mlName + ".model";
 		baseDir = new File(outputDir, pkgName.replace(".", "/"));
 		try {
-			domainDefs = new LEMSCompilerFrontend(componentTypeDefs)
-					.generateLEMSDocument();
+			compiler = new LEMSCompilerFrontend(componentTypeDefs);
+			domainDefs = compiler.generateLEMSDocument();
 		} catch (Throwable e) {
 			throw new MojoExecutionException(e.toString());
 		}
@@ -71,7 +82,8 @@ public class DomainModelMojo extends AbstractMojo {
 	}
 
 	private void createBaseDefinitions() throws IOException {
-		String fName = CaseFormat.LOWER_CAMEL.to(CaseFormat.UPPER_CAMEL, mlName) + ".java";
+		String fName = CaseFormat.LOWER_CAMEL
+				.to(CaseFormat.UPPER_CAMEL, mlName) + ".java";
 		getLog().info("\t" + fName);
 
 		ST merged = mergeRootElement();
@@ -96,8 +108,9 @@ public class DomainModelMojo extends AbstractMojo {
 
 	private void generateDomainClasses() throws IOException {
 		for (ComponentType ct : domainDefs.getComponentTypes()) {
-			String classFname = CaseFormat.LOWER_CAMEL.to(CaseFormat.UPPER_CAMEL, ct.getName())
-									.replace(".", "_") + ".java";
+			String classFname = CaseFormat.LOWER_CAMEL.to(
+					CaseFormat.UPPER_CAMEL, ct.getName()).replace(".", "_")
+					+ ".java";
 
 			getLog().info("\t" + classFname);
 
@@ -109,6 +122,19 @@ public class DomainModelMojo extends AbstractMojo {
 	public ST mergeCompTypeTemplate(ComponentType ct) {
 		ST template = typeSTG.getInstanceOf("class_file");
 
+		DirectedGraph<ComponentType> typeGraph = TopologicalSort.reverseGraph(compiler.getSemanticAnalyser()
+				.getTypeExtender().getVisitor().getTypeGraph());
+
+		Map<String, Set<ComponentType>> typeDepsMap = new HashMap<String, Set<ComponentType>>();
+		for (ComponentType node : typeGraph.getGraph().keySet()) {
+			List<ComponentType> result = new ArrayList<ComponentType>();
+			Set<ComponentType> visited = new HashSet<ComponentType>();
+			Set<ComponentType> expanded = new HashSet<ComponentType>();
+			TopologicalSort.explore(node, typeGraph, result, visited, expanded);
+			typeDepsMap.put(node.getName(), new HashSet<ComponentType>(result));
+		}
+
+		template.add("type_deps", typeDepsMap);
 		template.add("type", ct);
 		template.add("ml_name", mlName);
 		template.add("package", pkgName);

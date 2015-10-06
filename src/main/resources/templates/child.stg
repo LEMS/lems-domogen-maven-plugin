@@ -1,5 +1,5 @@
 child_declaration(child) ::= <<
-	@XmlElement(name = "<child.type>")
+	@XmlElement(name = "<child.name>")
 	private <child.type; format="cap"> <child.name>;
 
 >>

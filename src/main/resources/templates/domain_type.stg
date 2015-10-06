@@ -6,11 +6,13 @@ import "subcomponents.stg"
 import "imports.stg"
 import "common.stg"
 
-class_file(type, ml_name, package) ::= <<
+class_file(type, type_deps, ml_name, package) ::= <<
 package <package>;
 
+import java.beans.Introspector;
+
 <imports(type)>
-<class(type)>
+<class(type, type_deps)>
 >>
 
 quali_name(type) ::= "<package>.<type.extends>"
@@ -19,30 +21,16 @@ extension(type) ::= "extends <if(type.extends)><type.extends; format=\"cap\"><el
 
 getter_name(prop) ::= "get<prop; format=\"cap\">s"
 
-class(type) ::= <<
+class(type, type_deps) ::= <<
 @XmlType
 public class <type.name; format="cap"> <type:extension()> {
 
-<! see child.stg !>
-<type.children:child_declaration(); separator = "\n">
-
-<! see children.stg !>
-<type.childrens:children_declaration(); separator = "\n">
-
-<! see subcomp.stg !>
-<subcomponents(type)>
-
-<! see parameters.stg !>
-<type.parameters:parameter_accessors(); separator = "\n\n">
-
-<! see child.stg !>
-<type.children:child_accessors(); separator = "\n\n">
-
-<! see children.stg !>
-<type.childrens:children_accessors(); separator = "\n">
-
-<! see references.stg !>
-<type.componentReferences:reference_accessors(); separator = "\n">
-
+<type.children:child_declaration(); separator = "\n"><! see child.stg !>
+<type.childrens:children_declaration(type_deps); separator = "\n"><! see children.stg !>
+<subcomponents(type)><! see subcomp.stg !>
+<type.parameters:parameter_accessors(); separator = "\n\n"><! see parameters.stg !>
+<type.children:child_accessors(); separator = "\n\n"><! see child.stg !>
+<type.childrens:children_accessors(); separator = "\n"><! see children.stg !>
+<type.componentReferences:reference_accessors(); separator = "\n"><! see references.stg !>
 }
 >>

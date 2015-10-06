@@ -1,5 +1,7 @@
-children_declaration(children) ::= <<
-	@XmlElement(name = "<children.type>")
+children_declaration(children, type_deps) ::= <<
+	@XmlElements(value = {
+		<type_deps.(children.type):xml_elements(); separator=",\n">
+	})
 	private List\<<children.type; format="cap">\> <children.name>;
 
 >>
@@ -10,4 +12,13 @@ children_getter(children) ::= <<
 	public List\<<children.type; format="cap">\> get<children.name; format="cap">() {
 		return this.<children.name>;
 	}
+>>
+
+xml_elements(ext_types) ::= <<
+<ext_types:xml_element()>
+>>
+
+xml_element(type) ::= <<
+@XmlElement(name="<type.name>",
+			type=<type.name; format="cap">.class)
 >>
