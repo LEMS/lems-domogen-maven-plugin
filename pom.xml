@@ -16,6 +16,13 @@
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 	</properties>
 
+	<repositories>
+		<repository>
+		    <id>jitpack.io</id>
+		    <url>https://jitpack.io</url>
+		</repository>
+	</repositories>
+
 	<dependencies>
 		<dependency>
 			<groupId>org.apache.maven</groupId>
@@ -50,16 +57,16 @@
 			<version>4.0.2</version>
 		</dependency>
 		<dependency>
-			<groupId>org.lemsml.model</groupId>
-			<artifactId>org.lemsml.model</artifactId>
-			<version>0.0.1</version>
+	    		<groupId>com.github.borismarin</groupId>
+	    		<artifactId>org.lemsml.model</artifactId>
+	    		<version>-SNAPSHOT</version>
+		</dependency>
 <!-- 			<exclusions>
 				<exclusion>
 					<groupId>ch.qos.logback</groupId>
 					<artifactId>logback-classic</artifactId>
 				</exclusion>
 			</exclusions> -->
-		</dependency>
 	</dependencies>
 
 	<build>
