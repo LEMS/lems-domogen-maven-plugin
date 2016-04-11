@@ -59,7 +59,7 @@
 		<dependency>
 	    		<groupId>com.github.borismarin</groupId>
 	    		<artifactId>org.lemsml.model</artifactId>
-	    		<version>-SNAPSHOT</version>
+	    		<version>0.0.1</version>
 		</dependency>
 <!-- 			<exclusions>
 				<exclusion>
