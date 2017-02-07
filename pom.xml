@@ -4,7 +4,7 @@
 
 	<groupId>org.lemsml.lems-domogen-maven-plugin</groupId>
 	<artifactId>org.lemsml.lems-domogen-maven-plugin</artifactId>
-	<version>0.1</version>
+	<version>0.2</version>
 	<packaging>maven-plugin</packaging>
 
 	<name>lems-domogen-maven-plugin Maven Plugin</name>
