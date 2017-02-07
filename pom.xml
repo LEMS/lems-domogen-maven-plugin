@@ -2,8 +2,8 @@
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 
-	<groupId>com.github.borismarin</groupId>
-	<artifactId>lems-domogen-maven-plugin</artifactId>
+	<groupId>org.lemsml.lems-domogen-maven-plugin</groupId>
+	<artifactId>org.lemsml.lems-domogen-maven-plugin</artifactId>
 	<version>0.1</version>
 	<packaging>maven-plugin</packaging>
 
@@ -57,9 +57,9 @@
 			<version>4.0.2</version>
 		</dependency>
 		<dependency>
-	    		<groupId>com.github.borismarin</groupId>
+	    		<groupId>org.lemsml.model</groupId>
 	    		<artifactId>org.lemsml.model</artifactId>
-	    		<version>0.0.1</version>
+	    		<version>0.0.2</version>
 		</dependency>
 <!-- 			<exclusions>
 				<exclusion>
@@ -76,7 +76,7 @@
 				<artifactId>maven-plugin-plugin</artifactId>
 				<version>3.2</version>
 				<configuration>
-					<goalPrefix>lems-domogen</goalPrefix>
+					<goalPrefix>org.lemsml.lems-domogen</goalPrefix>
 					<skipErrorNoDescriptorsFound>true</skipErrorNoDescriptorsFound>
 				</configuration>
 				<executions>
