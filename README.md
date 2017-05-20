@@ -8,29 +8,29 @@ This plugin builds Java classes automatically once the project is built with e.g
 
 Add the snippet below to `pom.xml`, substituting `<mlName>` and `<componentTypeDefs>` with relevant values for your LEMS language.
 
-```
+```xml
 <plugin>
-				<dependencies>
-					<dependency>
-						<groupId>org.lemsml.lems-domogen-maven-plugin</groupId>
-						<artifactId>org.lemsml.lems-domogen-maven-plugin</artifactId>
-						<version>0.4</version>
-					</dependency>
-				</dependencies>
-				<groupId>org.lemsml.lems-domogen-maven-plugin</groupId>
-				<artifactId>org.lemsml.lems-domogen-maven-plugin</artifactId>
-				<version>0.4</version>
-				<configuration>
-					<mlName>myLang</mlName>
-					<componentTypeDefs>${project.basedir}/src/main/resources/myLang/MyLangLemsCompTypes.xml</componentTypeDefs>
-				</configuration>
-				<executions>
-					<execution>
-						<phase>generate-sources</phase>
-						<goals>
-							<goal>generateDoMoClasses</goal>
-						</goals>
-					</execution>
-				</executions>
-			</plugin>
-      ```
+	<dependencies>
+		<dependency>
+			<groupId>org.lemsml.lems-domogen-maven-plugin</groupId>
+			<artifactId>org.lemsml.lems-domogen-maven-plugin</artifactId>
+			<version>0.4</version>
+		</dependency>
+	</dependencies>
+	<groupId>org.lemsml.lems-domogen-maven-plugin</groupId>
+	<artifactId>org.lemsml.lems-domogen-maven-plugin</artifactId>
+	<version>0.4</version>
+	<configuration>
+		<mlName>myLang</mlName>
+		<componentTypeDefs>${project.basedir}/src/main/resources/myLang/MyLangLemsCompTypes.xml</componentTypeDefs>
+	</configuration>
+	<executions>
+		<execution>
+			<phase>generate-sources</phase>
+			<goals>
+				<goal>generateDoMoClasses</goal>
+			</goals>
+		</execution>
+	</executions>
+</plugin>
+```
