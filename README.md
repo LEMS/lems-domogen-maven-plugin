@@ -4,7 +4,7 @@ This `maven` plugin allows generating `Java` bindings for domain-specific langua
 
 This plugin builds Java classes automatically once the project is built with e.g. `maven install`.
 
-## Instalation
+## Installation
 
 Add the snippet below to `pom.xml`, substituting `<mlName>` and `<componentTypeDefs>` with relevant values for your LEMS language.
 
@@ -34,3 +34,5 @@ Add the snippet below to `pom.xml`, substituting `<mlName>` and `<componentTypeD
 	</executions>
 </plugin>
 ```
+
+[![Build Status](https://travis-ci.org/LEMS/lems-domogen-maven-plugin.svg?branch=master)](https://travis-ci.org/LEMS/lems-domogen-maven-plugin)
