@@ -12,14 +12,12 @@ jdk:
   - oraclejdk8
 
 install:
-    
-  # TODO: Update to github.com/borismarin, or github.com/LEMS version of repo
+  
   - git clone https://github.com/LEMS/expr-parser.git
   - cd expr-parser
   - mvn install
   - cd ..
   
-  # TODO: Update to github.com/borismarin, or github.com/LEMS version of repo
   - git clone https://github.com/LEMS/org.lemsml.model.git
   - cd org.lemsml.model
   - mvn install
