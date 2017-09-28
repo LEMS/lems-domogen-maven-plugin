@@ -1,4 +1,7 @@
+dist: precise
+
 sudo: false
+
 language: java
 
 before_install:
