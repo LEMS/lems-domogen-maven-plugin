@@ -4,7 +4,7 @@
 
 	<groupId>org.lemsml.lems-domogen-maven-plugin</groupId>
 	<artifactId>org.lemsml.lems-domogen-maven-plugin</artifactId>
-	<version>0.4</version>
+	<version>0.5</version>
 	<packaging>maven-plugin</packaging>
 
 	<name>lems-domogen-maven-plugin Maven Plugin</name>
@@ -16,20 +16,6 @@
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 	</properties>
 
-	<repositories>
-		<repository>
-		    <id>jitpack.io</id>
-		    <url>https://jitpack.io</url>
-		</repository>
-		<repository>
-			<id>org.geppetto-mvn-repo</id>
-			<url>https://raw.github.com/openworm/org.geppetto.maven/mvn-repo-nml-1.5.1-lems2</url>
-			<snapshots>
-				<enabled>true</enabled>
-				<updatePolicy>always</updatePolicy>
-			</snapshots>
-		</repository>
-	</repositories>
 
 	<dependencies>
 		<dependency>
@@ -67,7 +53,7 @@
 		<dependency>
 	    		<groupId>org.lemsml.model</groupId>
 	    		<artifactId>org.lemsml.model</artifactId>
-	    		<version>0.0.4</version>
+	    		<version>0.0.5</version>
 		</dependency>
 <!-- 			<exclusions>
 				<exclusion>
