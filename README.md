@@ -35,7 +35,7 @@ Add the snippet below to `pom.xml`, substituting `<mlName>` and `<componentTypeD
 </plugin>
 ```
 
-[![Build Status](https://travis-ci.org/LEMS/lems-domogen-maven-plugin.svg?branch=master)](https://travis-ci.org/LEMS/lems-domogen-maven-plugin)
+[![Build Status](https://travis-ci.com/LEMS/lems-domogen-maven-plugin.svg?branch=master)](https://travis-ci.com/LEMS/lems-domogen-maven-plugin)
 
 [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.1345750.svg)](https://doi.org/10.5281/zenodo.1345750)
 
